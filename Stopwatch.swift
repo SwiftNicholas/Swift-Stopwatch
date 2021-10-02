@@ -1,3 +1,4 @@
+
 //
 //  GenericGameTimer.swift
 //  SpeedFlip
@@ -7,13 +8,12 @@
 //
 //
 
-
 import Foundation
 import UIKit
 
 class Stopwatch {
    
-    // MARK: Class members
+    // MARK: - Properties
     
     // Use as needed to store/access multiple stopwatch/times
     var name:String = ""
@@ -21,11 +21,12 @@ class Stopwatch {
     var time = Time()
     
     // Uses default NSTimer
-    // MARK: - Timer Accuracy note
+    // MARK: Timer Accuracy note
     // "Because of the various input sources a typical run loop manages, the effective resolution of the time interval for a timer is limited to on the order of 50-100 milliseconds"
     //  https://developer.apple.com/reference/foundation/timer#1667624
     // Accessed 16 February, 2017
     var timer = Timer()
+    var timeChange = {}
     
     // MARK: - Stopwatch (increase time)
     
@@ -35,8 +36,10 @@ class Stopwatch {
         self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
             timer in
             self.time.seconds += 1
+            self.timeChange()
         })
         timer.fire()
+        
     }
     
     // MARK: - Timer (decrease time)
@@ -55,6 +58,7 @@ class Stopwatch {
             timer in
             if self.time.seconds >= 0{
                 self.time.seconds -= 1
+                self.timeChange()
             }
             else {
                 self.stopTimer()
@@ -62,6 +66,7 @@ class Stopwatch {
             }
         })
         timer.fire()
+      
     }
     
     // MARK: - Call to invalidate NSTimer
@@ -72,7 +77,6 @@ class Stopwatch {
 }
 
 // MARK: -
-
 /// Simple time object
 /**
  Can store or compute at init seconds, minutes, hours or days based on simple Ints.
@@ -194,19 +198,12 @@ class Time {
     /*
         This is a first attempt to create my own 'framework'/class. More research is needed before adding additional features. See below for details:
      
-        May opt to add support for NSDate comparison for longer run timers, days may also be lumped into that.
-        Considering pre-fire completion handlers for short run timers to trigger animations or other assets. Allowing access to pass in NSTimer objects would allow for more flexibility with variances and Timer scheduling. In my opinion though timer scheduling should be change to delay in minutes/seconds and 'scheduling' should be handled by NSDate or subclass therein.
-     
-        May also consider submitting as a built-in Swift component for NSTimer bridging. What good is a timer if the access to times or triggers is inefficient?
-     
-        MARK: - Needed updates
-            - Update getter functions to call single method using an enum? (Individual blocks seemed more straight forward.
-            - Added NSNotification trigger to allow for observer method calls.
-            - .background() call to send timers to background/allow operation while app is in suspended state
+        May opt to add support for Date comparison for longer run timers, days may also be lumped into that.
+      
      
      
      
-        MARK: - Last updated: 16 February, 2017
+        MARK: - Last updated: 02 October, 2021
      
      // MARK: - Contact Info
         
@@ -214,4 +211,3 @@ class Time {
      
     */
 }
-

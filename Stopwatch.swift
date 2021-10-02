@@ -203,11 +203,7 @@ class Time {
      
      
      
-        MARK: - Last updated: 02 October, 2021
-     
-     // MARK: - Contact Info
-        
-        email: Nicholas.Verrico@icloud.com
+        MARK: - Last updated: 02 October, 2021 by SwiftNicholas
      
     */
 }
